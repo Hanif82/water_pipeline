@@ -3,3 +3,17 @@
 multiple_join_paired_ends.py -i gz_files/ -o paired_reads/
 
 multiple_split_libraries_fastq.py -i paired_reads/ -o split_libraries/ --include_input_dir_path --remove_filepath_in_name
+
+identify_chimeric_seqs.py -i split_libraries/seqs.fna  -o chi_seq_analysis/ -m usearch61 --suppress_usearch61_ref --split_by_sampleid
+
+filter_fasta.py -f split_libraries/seqs.fna -o chi_seqs.fna -s chi_seq_analysis/chimeras.txt -n 
+
+parallel_blast.py -i fasta_files/chi_seqs.fna -r ~/Documents/Research/Menhaden/phiX.fasta  -o phix_blast/ 
+
+grep "^#" -v phix_blast/chi_seqs_blast_out.txt 
+
+grep "^#" -v phix_blast/chi_seqs_blast_out.txt >> phiX_matches.txt
+
+filter_fasta.py -f fasta_files/chi_seqs.fna -o fasta_files/chi_phi_seqs.fna -s phix_blast/phiX_matches.txt -n 
+
+pick_otus.py -i fasta_files/chi_phi_seqs.fna -o otu/ -m usearch61_ref -z -x --word_length 64 --minsize 2
