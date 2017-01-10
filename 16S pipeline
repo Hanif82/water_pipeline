@@ -17,3 +17,8 @@ grep "^#" -v phix_blast/chi_seqs_blast_out.txt >> phiX_matches.txt
 filter_fasta.py -f fasta_files/chi_seqs.fna -o fasta_files/chi_phi_seqs.fna -s phix_blast/phiX_matches.txt -n 
 
 pick_otus.py -i fasta_files/chi_phi_seqs.fna -o otu/ -m usearch61_ref -z -x --word_length 64 --minsize 2
+
+pick_rep_set.py -i otu/chi_phi_seqs_otus.txt -f fasta_files/chi_phi_seqs.fna -o fasta_files/otu_rep_set.fna
+
+assign_taxonomy.py -i fasta_files/otu_rep_set.fna -o taxa_assignments/
+
