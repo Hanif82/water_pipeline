@@ -22,3 +22,12 @@ pick_rep_set.py -i otu/chi_phi_seqs_otus.txt -f fasta_files/chi_phi_seqs.fna -o 
 
 assign_taxonomy.py -i fasta_files/otu_rep_set.fna -o taxa_assignments/
 
+make_otu_table.py -i otu/chi_phi_seqs_otus.txt -t taxa_assignments/otu_rep_set_tax_assignments.txt -o otu_table.biom
+
+sort_otu_table.py -i biom_tables/otu_table.biom -o biom_tables/otu_table.biom 
+
+biom convert -i biom_tables/otu_table.biom -o biom_tables/otu_table.txt --to-tsv --header-key="taxonomy" --output-metadata-id="Consensu Lineage"
+
+summarize_taxa.py -i biom_tables/otu_table.biom -o taxa_summaries/
+
+summarize_taxa.py -i biom_tables/otu_table.biom -o taxa_summaries/absolute/ -a
