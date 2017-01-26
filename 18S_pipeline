@@ -6,3 +6,6 @@ multiple_split_libraries_fastq.py -i paired_reads/ -o split_libraries/ --include
 identify_chimeric_seqs.py -i split_libraries/seqs.fna  -o chi_seq_analysis/ -m usearch61 --suppress_usearch61_ref --split_by_sampleid
 
 #initial chimeric script timed out.
+
+grep -A 2 "ST5" seqs.fna >test.fna
+perl -pi -e 's/--\n//g;' test.fna
